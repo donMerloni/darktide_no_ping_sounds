@@ -6,6 +6,7 @@ local function _local_player()
 end
 
 local function _check_unit_within_view(unit)
+    if not unit then return false end
     local player = _local_player()
     local first_person_system = ScriptUnit.has_extension(player, "first_person_system")
     if not first_person_system then return false end
