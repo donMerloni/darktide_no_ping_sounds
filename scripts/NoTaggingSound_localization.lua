@@ -13,14 +13,5 @@ return {
     },
     ping_unmute_all_behind_description = {
         en = "This will only mute pings that happen WITHIN your view",
-    },
-    ping_duration = {
-        en = "Override tag duration"
-    },
-    ping_duration_seconds = {
-        en = "Seconds"
-    },
-    ping_duration_seconds_unit = {
-        en = "second(s)"
     }
 }

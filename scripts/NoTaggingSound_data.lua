@@ -17,21 +17,6 @@ return {
                         default_value = true
                     }
                 }
-            },
-            {
-                setting_id="ping_duration",
-                type="checkbox",
-                default_value=false,
-                sub_widgets= {
-                    {
-                        setting_id="ping_duration_seconds",
-                        type="numeric",
-                        default_value=15,
-                        range={1,60*5},
-                        unit_text="ping_duration_seconds_unit",
-                        decimals_number=2
-                    }
-                }
             }
         }
     }	
