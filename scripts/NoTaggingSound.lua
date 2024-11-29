@@ -6,7 +6,7 @@ local _player_first_person_system = nil
 local _settings = {}
 
 local function _update_player()
-	local player = Managers.player and Managers.player:local_player_safe(1)
+	local player = Managers.player:local_player_safe(1)
 	_player = player and player.player_unit
 	_player_first_person_system = _player and ScriptUnit.has_extension(_player, "first_person_system")
 end
@@ -19,6 +19,16 @@ local function _update_settings(parent)
 	end
 end
 
+local function _check_visible(pos)
+	_update_player()
+	if not _player_first_person_system then
+		mod:error("_player_first_person_system is nil")
+		return false
+	end
+
+	return _player_first_person_system:is_within_default_view(pos)
+end
+
 _update_player()
 _update_settings(Data.options.widgets)
 
@@ -26,21 +36,10 @@ function mod.on_setting_changed(setting_id)
 	_settings[setting_id] = mod:get(setting_id)
 end
 
-function mod.on_game_state_changed(status, state_name)
-	if status == "enter" and state_name == "StateIngame" then
-		_update_player()
-	end
-end
-
 local _groups = {
 	enemy = function(tag)
 		return _settings.ping_mute_enemies
-			and (
-				not _settings.ping_unmute_enemies_behind
-				or _player_first_person_system:is_within_default_view(
-					tag._target_location or POSITION_LOOKUP[tag._target_unit]
-				)
-			)
+			and (not _settings.ping_unmute_enemies_behind or _check_visible(POSITION_LOOKUP[tag._target_unit]))
 	end,
 	object = function(tag)
 		return _settings.ping_mute_items
