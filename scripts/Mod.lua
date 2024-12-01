@@ -51,8 +51,6 @@ local function _check_visible(pos)
 	return _player_first_person_system:is_within_default_view(pos)
 end
 
-_update_local_player()
-
 -- function mod.on_setting_changed(setting_id)
 -- 	_settings[setting_id] = mod:get(setting_id)
 -- end
@@ -60,12 +58,12 @@ _update_local_player()
 local _groups = {
 	enemy = function(tag)
 		if not _settings.debug then
-			return _settings.ping_mute_enemies
-				and (not _settings.ping_unmute_enemies_behind or _check_visible(POSITION_LOOKUP[tag._target_unit]))
+			return _settings.ping_mute_enemy
+				and (not _settings.ping_mute_in_front or _check_visible(POSITION_LOOKUP[tag._target_unit]))
 		end
 
-		if _settings.ping_mute_enemies then
-			if _settings.ping_unmute_enemies_behind then
+		if _settings.ping_mute_enemy then
+			if _settings.ping_mute_in_front then
 				local pos = tag._target_location or POSITION_LOOKUP[tag._target_unit]
 				if pos[1] == math.huge then
 					pos = Unit.world_position(tag._target_unit, 1)
@@ -86,7 +84,7 @@ local _groups = {
 		return false
 	end,
 	object = function(tag)
-		return _settings.ping_mute_items
+		return _settings.ping_mute_item
 	end,
 	location_ping = function(tag)
 		return _settings.ping_mute_location_ping
@@ -126,13 +124,17 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 end)
 
 if _settings.debug then
-	keybind:press("t", function(t)
+	keybind:press("e", function(t)
 		util.get("last_tag", function(t)
-			if not t.unit or HEALTH_ALIVE[t.unit] then
+			if not t.unit or (Unit.is_valid(t.unit) and SmartTag.validate_target_unit(t.unit)) then
 				util.smart_tag(t.template.name, t.tagger, t.unit, t.unit and nil or t.pos:unbox())
 			end
+		end)
+	end)
 
-			util.debug:draw_sphere("tag", t.pos, Color.red())
+	keybind:press("f2", function(t)
+		util.get("last_tag", function(t)
+			util.debug:draw_sphere("tag", t.pos, Color.green())
 		end)
 	end)
 

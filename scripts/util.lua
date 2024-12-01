@@ -19,7 +19,6 @@ return function(mod)
 		_copy_settings(data.options.widgets)
 
 		local function on_setting_changed(setting_id)
-			util.print("Hooked on_setting_changed called")
 			settings[setting_id] = mod:get(setting_id)
 		end
 		if mod.on_setting_changed then
@@ -69,13 +68,8 @@ return function(mod)
 
 	function Store:set(key, value, cmp)
 		local oldvalue = rawget(self, key)
-		mod:echo(oldvalue)
-		mod:echo(value)
-		if (cmp and cmp(value, oldvalue)) or value == oldvalue then
-			mod:echo("SAME %s", key)
+		if cmp and cmp(value, oldvalue) or value == oldvalue then
 			return false
-		else
-			mod:echo("DIFFERENT %s", key)
 		end
 		rawset(self, key, value)
 		return true
@@ -280,13 +274,24 @@ return function(mod)
 	}
 	util.debug = Debug
 
+	Debug.line = Debug.line or {}
+
 	function Debug:_line_obj(name, world)
 		-- Line object management
-		local line_name = "line_" .. name
-		local obj = self.store[line_name]
+		local obj = self.store.line[name]
 		if not obj then
 			obj = world:create_line_object()
-			self.store[line_name] = obj
+			self.store.line[name] = obj
+		end
+		return obj
+	end
+
+	function Debug:_clear_lines(name, world)
+		-- Line object management
+		local obj = self.store.line[name]
+		if not obj then
+			obj = world:create_line_object()
+			self.store.line[name] = obj
 		end
 		return obj
 	end
@@ -299,8 +304,7 @@ return function(mod)
 
 		local world = Unit.world(player)
 		local line = self:_line_obj(name, world)
-		radius = radius
-			or self.store:cycle(name .. "radius", self.radii, not self.store:set(name .. "pos", pos, Vector3.equal))
+		radius = radius or self.store:cycle(name .. "radius", self.radii, not self.store:set(name .. "pos", pos))
 
 		if pos.unbox then
 			pos = pos:unbox()

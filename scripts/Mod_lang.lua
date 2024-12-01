@@ -67,11 +67,20 @@ stuff.mod_name = {
 stuff.mod_description = {
 	en = "Removes the tagging sound",
 }
+
+stuff.ping_mute_enemy = {
+	en = "Mute ALL enemy pings",
+}
+
 stuff.ping_mute_in_front = {
-	en = "EXCEPT behind you",
+	en = "only if in view",
 }
 stuff.ping_mute_in_front_description = {
 	en = "This will only mute pings that happen WITHIN your view",
+}
+
+stuff.ping_mute_item = {
+	en = "Mute ALL item pings",
 }
 
 stuff.ping_mute_location_ping = {
@@ -89,6 +98,10 @@ stuff.ping_duration = {
 }
 stuff.ping_duration_seconds = {
 	en = "Seconds",
+}
+
+stuff.debug = {
+	en = "Debug mode",
 }
 
 return stuff

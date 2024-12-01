@@ -14,31 +14,6 @@ end)
 
 local widgets = {}
 
-for _, v in ipairs(sorted) do
-	if v.smart_tag_target_type then
-		widgets[#widgets + 1] = {
-			setting_id = "ping_mute_enemy_" .. v.name,
-			type = "checkbox",
-			default_value = false,
-			sub_widgets = {
-				{
-					setting_id = "ping_mute_enemy_in_front_" .. v.name,
-					title = "ping_mute_in_front",
-					tooltip = "ping_mute_in_front_description",
-					type = "checkbox",
-					default_value = false,
-				},
-			},
-		}
-	end
-end
-
-for k, v in pairs(widgets) do
-	if not v.sub_widgets or not (#v.sub_widgets > 0) then
-		mod:dump(v)
-	end
-end
-
 -- for k, v in pairs(Pickups.by_name) do
 -- 	if not v.smart_tag_target_type then
 -- 		mod:echo(k)
@@ -46,19 +21,19 @@ end
 -- end
 
 widgets[#widgets + 1] = {
-	setting_id = "ping_mute_enemies",
+	setting_id = "ping_mute_enemy",
 	type = "checkbox",
 	default_value = false,
 	sub_widgets = {
 		{
-			setting_id = "ping_unmute_enemies_behind",
+			setting_id = "ping_mute_in_front",
 			type = "checkbox",
 			default_value = false,
 		},
 	},
 }
 widgets[#widgets + 1] = {
-	setting_id = "ping_mute_items",
+	setting_id = "ping_mute_item",
 	type = "checkbox",
 	default_value = false,
 }
@@ -94,6 +69,32 @@ widgets[#widgets + 1] = {
 	setting_id = "debug",
 	type = "checkbox",
 	default_value = false,
+}
+
+local preview = {}
+for _, v in ipairs(sorted) do
+	if v.smart_tag_target_type then
+		preview[#preview + 1] = {
+			setting_id = "ping_mute_enemy_" .. v.name,
+			type = "checkbox",
+			default_value = false,
+			sub_widgets = {
+				{
+					setting_id = "ping_mute_enemy_in_front_" .. v.name,
+					title = "ping_mute_in_front",
+					tooltip = "ping_mute_in_front_description",
+					type = "checkbox",
+					default_value = false,
+				},
+			},
+		}
+	end
+end
+
+widgets[#widgets + 1] = {
+	setting_id = "coming_soon",
+	type = "group",
+	sub_widgets = preview,
 }
 
 return {
