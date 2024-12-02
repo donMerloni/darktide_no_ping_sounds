@@ -105,7 +105,11 @@ return function(mod)
 		if type(fmt) == "string" then
 			msg = string.format(fmt, ...)
 		else
-			msg = table.concat({ fmt, ... }, "\t")
+			local t = {}
+			for _, v in ipairs({ fmt, ... }) do
+				t[#t + 1] = tostring(v)
+			end
+			msg = table.concat(t, "\t")
 		end
 		mod:echo(msg)
 		print(msg)
@@ -274,7 +278,7 @@ return function(mod)
 	}
 	util.debug = Debug
 
-	Debug.line = Debug.line or {}
+	Debug.store.line = Debug.store.line or {}
 
 	function Debug:_line_obj(name, world)
 		-- Line object management

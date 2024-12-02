@@ -104,4 +104,11 @@ stuff.debug = {
 	en = "Debug mode",
 }
 
+stuff.debug_repeat_ping = {
+	en = "Repeat your last enemy/item/location ping",
+}
+stuff.debug_repeat_ping_description = {
+	en = "This way you can test the settings",
+}
+
 return stuff

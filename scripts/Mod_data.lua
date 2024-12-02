@@ -69,8 +69,17 @@ widgets[#widgets + 1] = {
 	setting_id = "debug",
 	type = "checkbox",
 	default_value = false,
+	sub_widgets = {
+		{
+			setting_id = "debug_repeat_ping",
+			type = "keybind",
+			default_value = {},
+			keybind_trigger = "pressed",
+			keybind_type = "function_call",
+			function_name = "debug_repeat_ping",
+		},
+	},
 }
-
 local preview = {}
 for _, v in ipairs(sorted) do
 	if v.smart_tag_target_type then
