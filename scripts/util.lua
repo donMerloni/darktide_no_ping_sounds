@@ -4,7 +4,7 @@ return function(mod)
 	-- ╔═╗┌─┐┌┬┐┬ ┬┌─┐
 	-- ╚═╗├┤  │ │ │├─┘
 	-- ╚═╝└─┘ ┴ └─┘┴
-	function util.settings_cache()
+	function util.get_settings()
 		local settings = mod:persistent_table("SETTINGS")
 		local data = mod:io_dofile(mod:get_name() .. "/scripts/Mod_data")
 
@@ -17,15 +17,6 @@ return function(mod)
 			end
 		end
 		_copy_settings(data.options.widgets)
-
-		local function on_setting_changed(setting_id)
-			settings[setting_id] = mod:get(setting_id)
-		end
-		if mod.on_setting_changed then
-			mod:hook_safe(mod, "on_setting_changed", on_setting_changed)
-		else
-			mod.on_setting_changed = on_setting_changed
-		end
 
 		return settings
 	end
@@ -49,14 +40,6 @@ return function(mod)
 	function Store:new(name)
 		return setmetatable(mod:persistent_table(name), self)
 	end
-
-	-- function Store:__index(key)
-	-- 	return rawget(self, key)
-	-- end
-
-	-- function Store:__newindex(key, value)
-	-- 	rawset(self, key, value)
-	-- end
 
 	function Store:get(key, callback)
 		local value = rawget(self, key)
@@ -84,16 +67,18 @@ return function(mod)
 			rawset(self, key, list_index)
 		end
 		local value = list[list_index]
-		mod:echo("%s[%d] == %s", key, list_index, value)
 		return value
 	end
 
-	util.vars = Store:new("VARIABLES")
+	local _vars = Store:new("VARIABLES")
+	util.vars = _vars
+
 	function util.get(key, callback)
-		return util.vars:get(key, callback)
+		return _vars:get(key, callback)
 	end
+
 	function util.set(key, value)
-		return util.vars:set(key, value)
+		return _vars:set(key, value)
 	end
 
 	-- ╔═╗┬ ┬┌┐┌┌─┐┌┬┐┬┌─┐┌┐┌┌─┐
@@ -114,12 +99,6 @@ return function(mod)
 		mod:echo(msg)
 		print(msg)
 	end
-
-	local function local_player()
-		local player = Managers.player:local_player_safe(1)
-		return player and player.player_unit
-	end
-	util.player = local_player
 
 	function util.smart_tag(template_name, tagger_unit, target_unit, target_location)
 		local smart_tag_extension = Managers.state.extension:system("smart_tag_system")
@@ -214,14 +193,14 @@ return function(mod)
 		return device and device._raw_device.released(btn)
 	end
 
-	local cache = {}
+	local _cache = {}
 
 	local function split_keys(inputstr)
-		local key_info = cache[inputstr]
+		local key_info = _cache[inputstr]
 		if not key_info then
 			local m, e, d = InputUtils.split_key(inputstr)
 			key_info = { main = m, enablers = e, disablers = d }
-			cache[inputstr] = key_info
+			_cache[inputstr] = key_info
 		end
 		return key_info
 	end
@@ -290,23 +269,13 @@ return function(mod)
 		return obj
 	end
 
-	function Debug:_clear_lines(name, world)
-		-- Line object management
-		local obj = self.store.line[name]
-		if not obj then
-			obj = world:create_line_object()
-			self.store.line[name] = obj
-		end
-		return obj
-	end
-
 	function Debug:draw_sphere(name, pos, color, radius)
-		local player = local_player()
+		local player = Managers.player:local_player_safe(1)
 		if not player then
 			return
 		end
 
-		local world = Unit.world(player)
+		local world = Unit.world(player.player_unit)
 		local line = self:_line_obj(name, world)
 		radius = radius or self.store:cycle(name .. "radius", self.radii, not self.store:set(name .. "pos", pos))
 
@@ -315,7 +284,7 @@ return function(mod)
 		end
 
 		LineObject.reset(line)
-		LineObject.add_sphere(line, color, pos, radius, 30, 30)
+		LineObject.add_sphere(line, color, pos, radius, 20, 20)
 		LineObject.dispatch(world, line)
 	end
 
