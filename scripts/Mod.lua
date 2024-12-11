@@ -68,6 +68,55 @@ local groups = {
 	end,
 }
 
+mod:hook("HudElementWorldMarkers", "_create_widget", function(func, self, name, definition)
+	for k, v in pairs(definition.style) do
+		definition.style[k].color = Color.green(255, true)
+	end
+	-- mod:dtf(definition, "dump.json", 5)
+	return func(self, name, definition)
+end)
+mod:hook("HudElementWorldMarkers", "_template_by_type", function(func, self, marker_type, clone)
+	local template = func(self, marker_type, clone)
+	mod:hook_safe(template, "update_function", function(parent, ui_renderer, widget, marker, template, dt, t)
+		print(marker.data.distance_text)
+	end)
+	return template
+end)
+-- mod:hook("HudElementWorldMarkers", "_create_widget_by_type", function(func, self, name, template)
+-- 	local widget = func(self, name, template)
+-- 	for k, v in pairs(widget.style) do
+-- 		v.color = Color.blue(255, true)
+-- 	end
+-- 	--mod:dtf({ name, template, widget }, "dump.json", 5)
+-- 	return widget
+-- end)
+
+mod:hook_safe("OutlineSystem", "update", function(self, context, dt, t)
+	-- if not self._visible or self._total_num_outlines == 0 then
+	-- 	return
+	-- end
+
+	for unit, extension in pairs(self._unit_extension_data) do
+		-- for _, outline in ipairs(extension.outlines) do
+		-- 	for _, material_layer in ipairs(outline.material_layers) do
+		-- 		Unit.set_vector3_for_material(unit, material_layer, "outline_color", Vector3(1, 1, 1))
+		-- 		print("%s", material_layer)
+		-- 		Unit.set_vector3_for_materials(unit, "outline_color", Vector3(1, 1, 1), true)
+		-- 		print("%s", material_layer)
+		-- 	end
+		-- end
+		if util.keybind:hold("h") then
+			print(Unit.get_data(unit, "blood_color"))
+		end
+		Unit.set_vector3_for_materials_in_unit_and_childs(unit, "outline_color", Vector3(1, 1, 0))
+
+		-- if outline then
+		-- 	Unit.set_vector3_for_materials(unit, "outline_color", Vector3(0, 0, 1), true)
+		-- end
+	end
+end)
+
+mod:dtf(Color.yellow(127, true), "dump.json", 5)
 mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_instance, event_name)
 	local group = tag_instance._template.group
 
