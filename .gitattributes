@@ -1,0 +1,3 @@
+stylua.toml export-ignore
+.git* export-ignore
+*.bat export-ignore
