@@ -23,34 +23,34 @@ local widgets = {}
 widgets[#widgets + 1] = {
 	setting_id = "ping_mute_enemy",
 	type = "checkbox",
-	default_value = false,
+	default_value = true,
 	sub_widgets = {
 		{
 			setting_id = "ping_mute_in_front",
 			type = "checkbox",
-			default_value = false,
+			default_value = true,
 		},
 	},
 }
 widgets[#widgets + 1] = {
 	setting_id = "ping_mute_item",
 	type = "checkbox",
-	default_value = false,
+	default_value = true,
 }
 widgets[#widgets + 1] = {
 	setting_id = "ping_mute_location_ping",
 	type = "checkbox",
-	default_value = false,
+	default_value = true,
 }
 widgets[#widgets + 1] = {
 	setting_id = "ping_mute_location_attention",
 	type = "checkbox",
-	default_value = false,
+	default_value = true,
 }
 widgets[#widgets + 1] = {
 	setting_id = "ping_mute_location_threat",
 	type = "checkbox",
-	default_value = false,
+	default_value = true,
 }
 widgets[#widgets + 1] = {
 	setting_id = "ping_duration",
