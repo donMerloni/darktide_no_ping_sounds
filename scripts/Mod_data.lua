@@ -1,4 +1,4 @@
-local mod = get_mod("NoTaggingSound")
+local mod = get_mod("NoPingSounds")
 local Breeds = require("scripts/settings/breed/breeds")
 local Pickups = require("scripts/settings/pickup/pickups")
 

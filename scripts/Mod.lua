@@ -1,4 +1,4 @@
-local mod = get_mod("NoTaggingSound")
+local mod = get_mod("NoPingSounds")
 local util = mod:io_dofile(mod:get_name() .. "/scripts/util")(mod)
 
 local Unit_world_position = Unit.world_position

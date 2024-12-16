@@ -1,1 +1,1 @@
-git archive --prefix NoTaggingSound/ --format zip --worktree-attributes HEAD >NoTaggingSound.zip  
+git archive --prefix NoPingSounds/ --format zip --worktree-attributes HEAD >NoPingSounds.zip  

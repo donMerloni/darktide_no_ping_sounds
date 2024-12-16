@@ -1,4 +1,4 @@
-local mod = get_mod("NoTaggingSound")
+local mod = get_mod("NoPingSounds")
 local Breeds = require("scripts/settings/breed/breeds")
 local Pickups = require("scripts/settings/pickup/pickups")
 
@@ -62,10 +62,10 @@ for _, v in pairs(Breeds) do
 end
 
 stuff.mod_name = {
-	en = "NoTaggingSound",
+	en = "NoPingSounds",
 }
 stuff.mod_description = {
-	en = "Removes the tagging sound",
+	en = "Removes the ping sound",
 }
 
 stuff.ping_mute_enemy = {
