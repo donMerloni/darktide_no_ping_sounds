@@ -27,8 +27,8 @@ local groups = {
 				if settings.debug then
 					local pos = Unit_world_position(unit, 1)
 					local j_head = Unit_world_position(unit, Unit_node(unit, "j_head"))
-					util.debug:draw_sphere("1", pos, Color.green(), 0.25)
-					util.debug:draw_sphere("2", j_head, Color.red(), 0.25)
+					-- util.debug:draw_sphere("1", pos, Color.green(), 0.25)
+					-- util.debug:draw_sphere("2", j_head, Color.red(), 0.25)
 					print("pos %s", Camera_inside_frustum(camera, pos))
 					print("head %s", Camera_inside_frustum(camera, j_head))
 				end
