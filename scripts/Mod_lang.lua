@@ -2,7 +2,7 @@ local mod = get_mod("NoPingSounds")
 local stuff = {}
 
 stuff.mod_name = {
-	en = "NoPingSounds",
+	en = "No Ping Sounds",
 }
 stuff.mod_description = {
 	en = "Removes the ping sound",
