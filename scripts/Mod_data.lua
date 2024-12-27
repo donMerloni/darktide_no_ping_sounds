@@ -34,19 +34,6 @@ widgets[#widgets + 1] = {
 	default_value = true,
 }
 widgets[#widgets + 1] = {
-	setting_id = "ping_duration",
-	type = "checkbox",
-	default_value = false,
-	sub_widgets = {
-		{
-			setting_id = "ping_duration_seconds",
-			type = "numeric",
-			default_value = 15,
-			range = { 1, 60 * 2 },
-		},
-	},
-}
-widgets[#widgets + 1] = {
 	setting_id = "debug",
 	type = "checkbox",
 	default_value = false,
@@ -58,6 +45,19 @@ widgets[#widgets + 1] = {
 			keybind_trigger = "pressed",
 			keybind_type = "function_call",
 			function_name = "debug_repeat_ping",
+		},
+		{
+			setting_id = "ping_duration",
+			type = "checkbox",
+			default_value = false,
+			sub_widgets = {
+				{
+					setting_id = "ping_duration_seconds",
+					type = "numeric",
+					default_value = 15,
+					range = { 1, 60 * 2 },
+				},
+			},
 		},
 	},
 }
