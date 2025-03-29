@@ -1,3 +1,4 @@
 stylua.toml export-ignore
 .git* export-ignore
 *.bat export-ignore
+README.md export-ignore
