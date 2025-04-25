@@ -163,3 +163,78 @@ if settings.debug then
 
 	Managers.event:trigger("event_clear_notifications")
 end
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- local RelicActive = false
+
+-- mod:hook_safe("ActionZealotChannel", "start", function(self, action_settings, t, time_scale, action_start_params)
+-- 	print("RELIC START")
+-- 	RelicActive = true
+-- end)
+
+-- mod:hook_safe("ActionZealotChannel", "finish", function(self, reason, data, t, time_in_action)
+-- 	print("RELIC FINISH (%s)", reason)
+-- 	RelicActive = false
+-- end)
+
+-- mod:hook_require("scripts/settings/equipment/weapon_templates/combat_abilities/zealot_relic", function(weapon_templates)
+-- 	weapon_templates.actions["action_wield"].prevent_sprint = true
+-- 	weapon_templates.actions["action_zealot_channel"].prevent_sprint = true
+-- 	weapon_templates.actions["action_zealot_channel"].stop_input = nil
+-- 	return weapon_templates
+-- end)
+
+-- mod:hook(
+-- 	"ActionHandler",
+-- 	"start_action",
+-- 	function(
+-- 		func,
+-- 		self,
+-- 		id,
+-- 		action_objects,
+-- 		action_name,
+-- 		action_params,
+-- 		action_settings,
+-- 		used_input,
+-- 		t,
+-- 		transition_type,
+-- 		condition_func_params,
+-- 		automatic_input,
+-- 		reset_combo_override
+-- 	)
+-- 		if RelicActive and action_name ~= "action_zealot_channel" then
+-- 			return
+-- 		end
+
+-- 		if action_settings and action_settings.anim_event == "equip_relic" then
+-- 			RelicActive = true
+-- 			print("RELIC EQUIPPING")
+-- 		end
+
+-- 		return func(
+-- 			self,
+-- 			id,
+-- 			action_objects,
+-- 			action_name,
+-- 			action_params,
+-- 			action_settings,
+-- 			used_input,
+-- 			t,
+-- 			transition_type,
+-- 			condition_func_params,
+-- 			automatic_input,
+-- 			reset_combo_override
+-- 		)
+-- 	end
+-- )
+
+-- mod:hook("ActionHandler", "_update_stop_input", function(func, ...)
+-- 	if RelicActive then
+-- 		return
+-- 	end
+-- 	return func(...)
+-- end)
