@@ -102,9 +102,7 @@ end)
 function mod.debug_repeat_ping()
 	if settings.debug then
 		util.get("last_tag", function(t)
-			if not t.unit or (Unit.is_valid(t.unit) and SmartTag.validate_target_unit(t.unit)) then
-				util.smart_tag(t.template.name, player(), t.unit, t.pos and t.pos:unbox())
-			end
+			util.smart_tag(t.template.name, player(), t.unit, t.pos and t.pos:unbox())
 		end)
 	end
 end

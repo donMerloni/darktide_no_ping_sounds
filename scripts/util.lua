@@ -101,6 +101,10 @@ return function(mod)
 	end
 
 	function util.smart_tag(template_name, tagger_unit, target_unit, target_location)
+		if target_unit and not (Unit.is_valid(target_unit) and SmartTag.validate_target_unit(target_unit)) then
+			return
+		end
+
 		local smart_tag_extension = Managers.state.extension:system("smart_tag_system")
 		if target_unit then
 			smart_tag_extension:set_contextual_unit_tag(tagger_unit, target_unit)
