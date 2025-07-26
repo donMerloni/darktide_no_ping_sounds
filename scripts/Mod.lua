@@ -19,39 +19,43 @@ end
 
 local groups = {
 	enemy = function(tag)
-		if settings.ping_mute_enemy then
-			if settings.ping_mute_in_front then
-				local unit = tag._target_unit
-				local camera = Managers.state.camera:camera("player1")
+		if not settings.ping_mute_enemy then
+			-- never mute anything
+			return false
+		end
 
-				if settings.debug then
-					local pos = Unit_world_position(unit, 1)
-					local j_head = Unit_world_position(unit, Unit_node(unit, "j_head"))
-					-- util.debug:draw_sphere("1", pos, Color.green(), 0.25)
-					-- util.debug:draw_sphere("2", j_head, Color.red(), 0.25)
-					print("pos %s", Camera_inside_frustum(camera, pos))
-					print("head %s", Camera_inside_frustum(camera, j_head))
-				end
-
-				local pos = Unit_world_position(unit, 1)
-				if Camera_inside_frustum(camera, pos) > 0 then
-					return true
-				end
-
-				local j_head = Unit_world_position(unit, Unit_node(unit, "j_head"))
-				if Camera_inside_frustum(camera, j_head) > -0.1 then
-					return true
-				end
-
-				if settings.debug then
-					print("enemy NOT visible")
-				end
-				return false
-			end
-
+		if not settings.ping_mute_in_front then
+			-- always mute everything
 			return true
 		end
 
+		-- sometimes mute... something?
+
+		local unit = tag._target_unit
+		local camera = Managers.state.camera:camera("player1")
+
+		if settings.debug then
+			local pos = Unit_world_position(unit, 1)
+			local j_head = Unit_world_position(unit, Unit_node(unit, "j_head"))
+			-- util.debug:draw_sphere("1", pos, Color.green(), 0.25)
+			-- util.debug:draw_sphere("2", j_head, Color.red(), 0.25)
+			print("pos %s", Camera_inside_frustum(camera, pos))
+			print("head %s", Camera_inside_frustum(camera, j_head))
+		end
+
+		local pos = Unit_world_position(unit, 1)
+		if Camera_inside_frustum(camera, pos) > 0 then
+			return true
+		end
+
+		local j_head = Unit_world_position(unit, Unit_node(unit, "j_head"))
+		if Camera_inside_frustum(camera, j_head) > -0.1 then
+			return true
+		end
+
+		if settings.debug then
+			print("enemy NOT visible")
+		end
 		return false
 	end,
 	object = function(tag)
