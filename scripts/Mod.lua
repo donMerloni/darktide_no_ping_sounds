@@ -85,11 +85,11 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 		if tag.tagger == player() then
 			util.set("last_tag", tag)
 		end
-	end
 
-	if settings.ping_duration then
-		local t = Managers.time:time("gameplay")
-		tag_instance._expire_time = t + settings.ping_duration_seconds
+		if settings.ping_duration then
+			local t = Managers.time:time("gameplay")
+			tag_instance._expire_time = t + settings.ping_duration_seconds
+		end
 	end
 
 	if groups[group](tag_instance) then
