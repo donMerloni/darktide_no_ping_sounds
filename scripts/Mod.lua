@@ -6,10 +6,33 @@ local Unit_node = Unit.node
 local Camera_inside_frustum = Camera.inside_frustum
 local print = util.print
 
+-- cache settings locally for the sake of performance
 local settings = util.get_settings()
+local settings_ping_mute_enemy = settings.ping_mute_enemy
+local settings_ping_mute_in_front = settings.ping_mute_in_front
+local settings_ping_mute_item = settings.ping_mute_item
+local settings_ping_mute_location_ping = settings.ping_mute_location_ping
+local settings_ping_mute_location_attention = settings.ping_mute_location_attention
+local settings_ping_mute_location_threat = settings.ping_mute_location_threat
+local settings_debug = settings.debug
+local settings_ping_duration = settings.ping_duration
+local settings_ping_duration_seconds = settings.ping_duration_seconds
 
-function mod.on_setting_changed(setting_id)
-	settings[setting_id] = mod:get(setting_id)
+-- stylua: ignore
+function mod.on_setting_changed(key)
+	local value = mod:get(key)
+	settings[key] = value
+
+	-- update local settings cache
+	if key == "ping_mute_enemy" then settings_ping_mute_enemy = value return end
+	if key == "ping_mute_in_front" then settings_ping_mute_in_front = value return end
+	if key == "ping_mute_item" then settings_ping_mute_item = value return end
+	if key == "ping_mute_location_ping" then settings_ping_mute_location_ping = value return end
+	if key == "ping_mute_location_attention" then settings_ping_mute_location_attention = value return end
+	if key == "ping_mute_location_threat" then settings_ping_mute_location_threat = value return end
+	if key == "debug" then settings_debug = value return end
+	if key == "ping_duration" then settings_ping_duration = value return end
+	if key == "ping_duration_seconds" then settings_ping_duration_seconds = value return end
 end
 
 local function player()
@@ -19,12 +42,12 @@ end
 
 local groups = {
 	enemy = function(tag)
-		if not settings.ping_mute_enemy then
+		if not settings_ping_mute_enemy then
 			-- never mute anything
 			return false
 		end
 
-		if not settings.ping_mute_in_front then
+		if not settings_ping_mute_in_front then
 			-- always mute everything
 			return true
 		end
@@ -34,7 +57,7 @@ local groups = {
 		local unit = tag._target_unit
 		local camera = Managers.state.camera:camera("player1")
 
-		if settings.debug then
+		if settings_debug then
 			local pos = Unit_world_position(unit, 1)
 			local j_head = Unit_world_position(unit, Unit_node(unit, "j_head"))
 			-- util.debug:draw_sphere("1", pos, Color.green(), 0.25)
@@ -53,29 +76,29 @@ local groups = {
 			return true
 		end
 
-		if settings.debug then
+		if settings_debug then
 			print("enemy NOT visible")
 		end
 		return false
 	end,
 	object = function(tag)
-		return settings.ping_mute_item
+		return settings_ping_mute_item
 	end,
 	location_ping = function(tag)
-		return settings.ping_mute_location_ping
+		return settings_ping_mute_location_ping
 	end,
 	location_attention = function(tag)
-		return settings.ping_mute_location_attention
+		return settings_ping_mute_location_attention
 	end,
 	location_threat = function(tag)
-		return settings.ping_mute_location_threat
+		return settings_ping_mute_location_threat
 	end,
 }
 
 mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_instance, event_name)
 	local group = tag_instance._template.group
 
-	if settings.debug then
+	if settings_debug then
 		local tag = {
 			template = tag_instance._template,
 			tagger = tag_instance._tagger_unit,
@@ -86,9 +109,9 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 			util.set("last_tag", tag)
 		end
 
-		if settings.ping_duration then
+		if settings_ping_duration then
 			local t = Managers.time:time("gameplay")
-			tag_instance._expire_time = t + settings.ping_duration_seconds
+			tag_instance._expire_time = t + settings_ping_duration_seconds
 		end
 	end
 
@@ -100,14 +123,14 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 end)
 
 function mod.debug_repeat_ping()
-	if settings.debug then
+	if settings_debug then
 		util.get("last_tag", function(t)
 			util.smart_tag(t.template.name, player(), t.unit, t.pos and t.pos:unbox())
 		end)
 	end
 end
 
-if settings.debug then
+if settings_debug then
 	mod:hook_require("scripts/managers/ui/ui_renderer", function(UIRenderer)
 		mod:hook_safe(UIRenderer, "begin_pass", function(self, ui_scenegraph, input_service, dt, render_settings)
 			util.debug:draw_input(UIRenderer, self, ui_scenegraph)
