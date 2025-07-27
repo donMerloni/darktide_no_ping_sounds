@@ -4,6 +4,7 @@ local util = mod:io_dofile(mod:get_name() .. "/scripts/util")(mod)
 -- cache global functions
 local Unit_world_position = Unit.world_position
 local Unit_node = Unit.node
+local Unit_has_node = Unit.has_node
 local Camera_inside_frustum = Camera.inside_frustum
 
 -- cache settings locally for the sake of performance
@@ -67,7 +68,8 @@ local groups = {
 		local unit = tag._target_unit
 		return not settings_ping_mute_enemy_in_front
 			or Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, 1)) > 0
-			or Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, Unit_node(unit, "j_head"))) > -0.1
+			or Unit_has_node(unit, "j_head")
+				and Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, Unit_node(unit, "j_head"))) > -0.1
 	end,
 
 	object = function(tag)
