@@ -105,6 +105,11 @@ local groups = {
 	end,
 }
 
+local function unknown_group(tag)
+	mod:echo("unknown group '%s'", tag._template.group)
+	return false
+end
+
 mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_instance, event_name)
 	if settings_debug then
 		local tagger = tag_instance._tagger_unit
@@ -123,7 +128,7 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 		end
 	end
 
-	if groups[tag_instance._template.group](tag_instance) then
+	if (groups[tag_instance._template.group] or unknown_group)(tag_instance) then
 		return -- mute
 	end
 
