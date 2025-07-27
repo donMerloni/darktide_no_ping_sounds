@@ -1,38 +1,38 @@
 local mod = get_mod("NoPingSounds")
 local widgets = {}
 
-widgets[#widgets + 1] = {
-	setting_id = "ping_mute_enemy",
-	type = "checkbox",
-	default_value = true,
-	sub_widgets = {
-		{
-			setting_id = "ping_mute_in_front",
-			type = "checkbox",
-			default_value = true,
+-- common mute settings
+local function ping_mute_setting(name, default, default_in_front)
+	local key = "ping_mute_" .. name
+	widgets[#widgets + 1] = {
+		setting_id = key,
+		type = "checkbox",
+		default_value = default,
+		sub_widgets = {
+			{
+				setting_id = key .. "_in_front",
+				type = "checkbox",
+				default_value = default_in_front,
+			},
 		},
-	},
-}
-widgets[#widgets + 1] = {
-	setting_id = "ping_mute_item",
-	type = "checkbox",
-	default_value = true,
-}
-widgets[#widgets + 1] = {
-	setting_id = "ping_mute_location_ping",
-	type = "checkbox",
-	default_value = true,
-}
-widgets[#widgets + 1] = {
-	setting_id = "ping_mute_location_attention",
-	type = "checkbox",
-	default_value = true,
-}
-widgets[#widgets + 1] = {
-	setting_id = "ping_mute_location_threat",
-	type = "checkbox",
-	default_value = true,
-}
+	}
+end
+
+-- enemy ping
+ping_mute_setting("enemy", true, true)
+
+-- item ping
+ping_mute_setting("item", true, false)
+
+-- location marker
+ping_mute_setting("location_ping", true, false)
+
+-- eye marker
+ping_mute_setting("location_attention", true, false)
+
+-- red skull marker
+ping_mute_setting("location_threat", true, false)
+
 widgets[#widgets + 1] = {
 	setting_id = "debug",
 	type = "checkbox",
