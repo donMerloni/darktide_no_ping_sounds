@@ -12,12 +12,22 @@ stuff.ping_mute_enemy = {
 	en = "Mute ALL enemy pings",
 }
 
-stuff.ping_mute_in_front = {
+stuff.ping_mute_enemy_in_front = {
 	en = "only if in view",
 }
-stuff.ping_mute_in_front_description = {
+stuff.ping_mute_enemy_in_front_description = {
 	en = "This will only mute pings that happen WITHIN your view",
 }
+
+stuff.ping_mute_enemy_doubletag = {
+	en = "Mute ALL enemy pings (double-tag)",
+}
+stuff.ping_mute_enemy_doubletag_description = {
+	en = "e.g. Arbitrator Dog Ping",
+}
+
+stuff.ping_mute_enemy_doubletag_in_front = stuff.ping_mute_enemy_in_front
+stuff.ping_mute_enemy_doubletag_in_front_description = stuff.ping_mute_enemy_in_front_description
 
 stuff.ping_mute_item = {
 	en = "Mute ALL item pings",

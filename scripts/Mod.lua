@@ -10,7 +10,9 @@ local Camera_inside_frustum = Camera.inside_frustum
 -- cache settings locally for the sake of performance
 local settings = util.get_settings()
 local settings_ping_mute_enemy = settings.ping_mute_enemy
-local settings_ping_mute_in_front = settings.ping_mute_in_front
+local settings_ping_mute_enemy_in_front = settings.ping_mute_enemy_in_front
+local settings_ping_mute_enemy_doubletag = settings.ping_mute_enemy_doubletag
+local settings_ping_mute_enemy_doubletag_in_front = settings.ping_mute_enemy_doubletag_in_front
 local settings_ping_mute_item = settings.ping_mute_item
 local settings_ping_mute_location_ping = settings.ping_mute_location_ping
 local settings_ping_mute_location_attention = settings.ping_mute_location_attention
@@ -26,7 +28,9 @@ function mod.on_setting_changed(key)
 
 	-- update local settings cache
 	if key == "ping_mute_enemy" then settings_ping_mute_enemy = value return end
-	if key == "ping_mute_in_front" then settings_ping_mute_in_front = value return end
+	if key == "ping_mute_enemy_in_front" then settings_ping_mute_enemy_in_front = value return end
+	if key == "ping_mute_enemy_doubletag" then settings_ping_mute_enemy_doubletag = value return end
+	if key == "ping_mute_enemy_doubletag_in_front" then settings_ping_mute_enemy_doubletag_in_front = value return end
 	if key == "ping_mute_item" then settings_ping_mute_item = value return end
 	if key == "ping_mute_location_ping" then settings_ping_mute_location_ping = value return end
 	if key == "ping_mute_location_attention" then settings_ping_mute_location_attention = value return end
@@ -58,7 +62,18 @@ local groups = {
 			return false
 		end
 		local unit = tag._target_unit
-		return not settings_ping_mute_in_front
+		return not settings_ping_mute_enemy_in_front
+			or Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, 1)) > 0
+			or Unit_has_node(unit, "j_head")
+				and Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, Unit_node(unit, "j_head"))) > -0.1
+	end,
+
+	double_tag_enemy = function(tag)
+		if not settings_ping_mute_enemy_doubletag then
+			return false
+		end
+		local unit = tag._target_unit
+		return not settings_ping_mute_enemy_doubletag_in_front
 			or Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, 1)) > 0
 			or Unit_has_node(unit, "j_head")
 				and Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, Unit_node(unit, "j_head"))) > -0.1
