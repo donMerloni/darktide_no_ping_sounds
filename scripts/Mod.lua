@@ -10,15 +10,11 @@ local Camera_inside_frustum = Camera.inside_frustum
 -- cache settings locally for the sake of performance
 local settings = util.get_settings()
 local settings_ping_mute_enemy = settings.ping_mute_enemy
-local settings_ping_mute_enemy_in_front = settings.ping_mute_enemy_in_front
+local settings_ping_mute_in_front = settings.ping_mute_in_front
 local settings_ping_mute_item = settings.ping_mute_item
-local settings_ping_mute_item_in_front = settings.ping_mute_item_in_front
 local settings_ping_mute_location_ping = settings.ping_mute_location_ping
-local settings_ping_mute_location_ping_in_front = settings.ping_mute_location_ping_in_front
 local settings_ping_mute_location_attention = settings.ping_mute_location_attention
-local settings_ping_mute_location_attention_in_front = settings.ping_mute_location_attention_in_front
 local settings_ping_mute_location_threat = settings.ping_mute_location_threat
-local settings_ping_mute_location_threat_in_front = settings.ping_mute_location_threat_in_front
 local settings_debug = settings.debug
 local settings_ping_duration = settings.ping_duration
 local settings_ping_duration_seconds = settings.ping_duration_seconds
@@ -30,15 +26,11 @@ function mod.on_setting_changed(key)
 
 	-- update local settings cache
 	if key == "ping_mute_enemy" then settings_ping_mute_enemy = value return end
-	if key == "ping_mute_enemy_in_front" then settings_ping_mute_enemy_in_front = value return end
+	if key == "ping_mute_in_front" then settings_ping_mute_in_front = value return end
 	if key == "ping_mute_item" then settings_ping_mute_item = value return end
-	if key == "ping_mute_item_in_front" then settings_ping_mute_item_in_front = value return end
 	if key == "ping_mute_location_ping" then settings_ping_mute_location_ping = value return end
-	if key == "ping_mute_location_ping_in_front" then settings_ping_mute_location_ping_in_front = value return end
 	if key == "ping_mute_location_attention" then settings_ping_mute_location_attention = value return end
-	if key == "ping_mute_location_attention_in_front" then settings_ping_mute_location_attention_in_front = value return end
 	if key == "ping_mute_location_threat" then settings_ping_mute_location_threat = value return end
-	if key == "ping_mute_location_threat_in_front" then settings_ping_mute_location_threat_in_front = value return end
 	if key == "debug" then settings_debug = value return end
 	if key == "ping_duration" then settings_ping_duration = value return end
 	if key == "ping_duration_seconds" then settings_ping_duration_seconds = value return end
@@ -66,7 +58,7 @@ local groups = {
 			return false
 		end
 		local unit = tag._target_unit
-		return not settings_ping_mute_enemy_in_front
+		return not settings_ping_mute_in_front
 			or Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, 1)) > 0
 			or Unit_has_node(unit, "j_head")
 				and Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, Unit_node(unit, "j_head"))) > -0.1
@@ -74,34 +66,18 @@ local groups = {
 
 	object = function(tag)
 		return settings_ping_mute_item
-			and (
-				not settings_ping_mute_item_in_front
-				or Camera_inside_frustum(PlayerCamera, Unit_world_position(tag._target_unit, 1)) > 0
-			)
 	end,
 
 	location_ping = function(tag)
 		return settings_ping_mute_location_ping
-			and (
-				not settings_ping_mute_location_ping_in_front
-				or Camera_inside_frustum(PlayerCamera, tag._target_location:unbox()) > 0
-			)
 	end,
 
 	location_attention = function(tag)
 		return settings_ping_mute_location_attention
-			and (
-				not settings_ping_mute_location_attention_in_front
-				or Camera_inside_frustum(PlayerCamera, tag._target_location:unbox()) > 0
-			)
 	end,
 
 	location_threat = function(tag)
 		return settings_ping_mute_location_threat
-			and (
-				not settings_ping_mute_location_threat_in_front
-				or Camera_inside_frustum(PlayerCamera, tag._target_location:unbox()) > 0
-			)
 	end,
 }
 

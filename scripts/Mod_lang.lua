@@ -8,42 +8,30 @@ stuff.mod_description = {
 	en = "Removes the ping sound",
 }
 
--- common mute settings
-local function ping_mute_setting(name, langs)
-	local key = "ping_mute_" .. name
-	stuff[key] = langs
-	stuff[key .. "_in_front"] = {
-		en = "only if in view",
-	}
-	stuff[key .. "_in_front_description"] = {
-		en = "This will only mute pings that happen WITHIN your view",
-	}
-end
-
--- enemy ping
-ping_mute_setting("enemy", {
+stuff.ping_mute_enemy = {
 	en = "Mute ALL enemy pings",
-})
+}
 
--- item ping
-ping_mute_setting("item", {
+stuff.ping_mute_in_front = {
+	en = "only if in view",
+}
+stuff.ping_mute_in_front_description = {
+	en = "This will only mute pings that happen WITHIN your view",
+}
+
+stuff.ping_mute_item = {
 	en = "Mute ALL item pings",
-})
+}
 
--- location marker
-ping_mute_setting("location_ping", {
+stuff.ping_mute_location_ping = {
 	en = 'Mute "Let\'s go here" marker',
-})
-
--- eye marker
-ping_mute_setting("location_attention", {
+}
+stuff.ping_mute_location_attention = {
 	en = 'Mute "Scout that area" marker',
-})
-
--- red skull marker
-ping_mute_setting("location_threat", {
+}
+stuff.ping_mute_location_threat = {
 	en = 'Mute "Enemy over there" marker',
-})
+}
 
 stuff.ping_duration = {
 	en = "Override ping duration",
