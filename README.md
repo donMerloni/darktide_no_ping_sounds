@@ -1,4 +1,12 @@
 # Changelog:
+
+## v2
+- Fixes for "Bound By Duty" Update
+  - Arbitrator Dog Pings were crashing the game
+  - fix the "Repeat Last Ping" debug function for Arbitrator pings
+- general code/performance improvements
+- new Setting: A variation of "Mute all enemy pings" but for double-tag (Arbitrator) pings
+
 ## v1
 - Mute all enemy pings
   - opt to cover your back by unmuting enemies outside your view
