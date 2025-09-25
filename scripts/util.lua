@@ -105,11 +105,13 @@ return function(mod)
 			return
 		end
 
-		local smart_tag_extension = Managers.state.extension:system("smart_tag_system")
+		local smart_tag_system = Managers.state.extension:system("smart_tag_system")
 		if target_unit then
-			smart_tag_extension:set_contextual_unit_tag(tagger_unit, target_unit)
+			-- Arbitrator ping needs a special parameter
+			local alternate = (template_name == "enemy_companion_target") and "companion_order"
+			smart_tag_system:set_contextual_unit_tag(tagger_unit, target_unit, alternate)
 		else
-			smart_tag_extension:set_tag(template_name, tagger_unit, nil, target_location)
+			smart_tag_system:set_tag(template_name, tagger_unit, nil, target_location)
 		end
 	end
 
