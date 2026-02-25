@@ -1,7 +1,7 @@
 local mod = get_mod("NoPingSounds")
-local widgets = {}
+local data = {}
 
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "ping_mute_enemy",
 	type = "checkbox",
 	default_value = true,
@@ -13,7 +13,7 @@ widgets[#widgets + 1] = {
 		},
 	},
 }
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "ping_mute_enemy_doubletag",
 	type = "checkbox",
 	default_value = true,
@@ -25,27 +25,27 @@ widgets[#widgets + 1] = {
 		},
 	},
 }
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "ping_mute_item",
 	type = "checkbox",
 	default_value = true,
 }
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "ping_mute_location_ping",
 	type = "checkbox",
 	default_value = true,
 }
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "ping_mute_location_attention",
 	type = "checkbox",
 	default_value = true,
 }
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "ping_mute_location_threat",
 	type = "checkbox",
 	default_value = true,
 }
-widgets[#widgets + 1] = {
+data[#data + 1] = {
 	setting_id = "debug",
 	type = "checkbox",
 	default_value = false,
@@ -79,6 +79,6 @@ return {
 	description = mod:localize("mod_description"),
 	is_togglable = true,
 	options = {
-		widgets = widgets,
+		widgets = data,
 	},
 }
