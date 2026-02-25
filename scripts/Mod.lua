@@ -1,6 +1,8 @@
 local mod = get_mod("NoPingSounds")
 local util = mod:io_dofile(mod:get_name() .. "/scripts/util")(mod)
 
+local Player
+local PlayerCamera
 local LastTag
 
 -- cache global functions
@@ -40,10 +42,7 @@ function mod.on_setting_changed(key)
 	if key == "ping_duration_seconds" then settings_ping_duration_seconds = value return end
 end
 
--- cache player
-local Player
-local PlayerCamera
-
+-- grab the player whenever it updates
 local function UIManager_grab_player(self, ...)
 	local hud = self._hud
 	if hud then
@@ -51,10 +50,8 @@ local function UIManager_grab_player(self, ...)
 		PlayerCamera = hud:player_camera()
 	end
 end
-
--- grab the player whenever it updates
 mod:hook_safe("UIManager", "create_player_hud", UIManager_grab_player)
-UIManager_grab_player(Managers.ui) -- don't die when reloading mods...
+UIManager_grab_player(Managers.ui)
 
 local groups = {
 	enemy = function(tag)
