@@ -54,10 +54,10 @@ lang.debug = {
 }
 
 lang.debug_repeat_ping = {
-	en = "Repeat your last enemy/item/location ping",
+	en = "Repeat your last ping or marker",
 }
 lang.debug_repeat_ping_description = {
-	en = "This way you can test the settings",
+	en = "Use this to test your settings",
 }
 
 return lang
