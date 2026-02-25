@@ -98,6 +98,13 @@ local function unknown_group(tag)
 	return false
 end
 
+-- -- Higher-level function that could probably be hooked instead to also change stuff like outlines:
+-- local SmartTagSettings = require("scripts/settings/smart_tag/smart_tag_settings")
+-- mod:hook("SmartTagSystem", "set_tag", function(original, self, template_name, tagger_unit, target_unit, target_location)
+-- 	local template = SmartTagSettings[template_name]
+-- 	return original(self, template_name, tagger_unit, target_unit, target_location)
+-- end)
+
 mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_instance, event_name)
 	if settings_debug then
 		local tagger = tag_instance._tagger_unit
