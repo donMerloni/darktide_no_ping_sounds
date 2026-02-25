@@ -101,7 +101,7 @@ end
 -- 	return original(self, template_name, tagger_unit, target_unit, target_location)
 -- end)
 
-mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_instance, event_name)
+mod:hook("HudElementSmartTagging", "_play_tag_sound", function(original, self, tag_instance, event_name)
 	if settings_debug then
 		local tagger = tag_instance._tagger_unit
 		if tagger == Player then
@@ -123,7 +123,7 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 		return -- mute
 	end
 
-	return func(self, tag_instance, event_name)
+	return original(self, tag_instance, event_name)
 end)
 
 function mod.debug_repeat_ping()
