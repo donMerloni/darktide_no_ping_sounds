@@ -1,6 +1,24 @@
 local mod = get_mod("NoPingSounds")
 local lang = {}
 
+local function colored(text, color)
+	return string.format("{#color(%d,%d,%d,%d)}%s{#reset()}", color[2], color[3], color[4], color[1], text)
+end
+
+-- taken from @scripts/foundation/utilities/color.lua
+local alpha = 200
+local colors = {
+	ui_red_super_light = function(a)
+		return { a, 242, 122, 99 }
+	end,
+	ui_green_light = function(a)
+		return { a, 74, 199, 60 }
+	end,
+	player_slot_1 = function(a)
+		return { a, 226, 210, 117 }
+	end,
+}
+
 lang.mod_name = {
 	en = "No Ping Sounds",
 }
@@ -9,10 +27,10 @@ lang.mod_description = {
 }
 
 lang.ping_mute_enemy = {
-	en = "Mute ALL enemy pings",
+	en = string.format("Mute ALL %s pings", colored("enemy", colors.ui_red_super_light(alpha))),
 }
 lang.ping_mute_enemy_doubletag = {
-	en = "Mute ALL enemy pings (double-tag)",
+	en = string.format("Mute ALL %s pings (double-tag)", colored("enemy", colors.ui_red_super_light(alpha))),
 }
 lang.ping_mute_enemy_doubletag_description = {
 	en = "e.g. Arbitrator Dog Ping",
@@ -29,17 +47,17 @@ lang.ping_mute_never = {
 }
 
 lang.ping_mute_item = {
-	en = "Mute ALL item pings",
+	en = string.format("Mute ALL %s pings", colored("item", colors.ui_green_light(alpha))),
 }
 
 lang.ping_mute_location_ping = {
-	en = 'Mute "Let\'s go here" marker',
+	en = string.format('Mute "%s" marker', colored("Let's go here", colors.player_slot_1(alpha))),
 }
 lang.ping_mute_location_attention = {
-	en = 'Mute "Scout that area" marker',
+	en = string.format('Mute "%s" marker', colored("Scout that area", colors.player_slot_1(alpha))),
 }
 lang.ping_mute_location_threat = {
-	en = 'Mute "Enemy over there" marker',
+	en = string.format('Mute "%s" marker', colored("Enemy over there", colors.ui_red_super_light(alpha))),
 }
 
 lang.ping_duration = {
