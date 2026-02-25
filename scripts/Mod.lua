@@ -1,6 +1,8 @@
 local mod = get_mod("NoPingSounds")
 local util = mod:io_dofile(mod:get_name() .. "/scripts/util")(mod)
 
+local LastTag
+
 -- cache global functions
 local Unit_world_position = Unit.world_position
 local Unit_node = Unit.node
@@ -8,23 +10,21 @@ local Unit_has_node = Unit.has_node
 local Camera_inside_frustum = Camera.inside_frustum
 
 -- cache settings locally for the sake of performance
-local settings = util.get_settings()
-local settings_ping_mute_enemy = settings.ping_mute_enemy
-local settings_ping_mute_enemy_in_front = settings.ping_mute_enemy_in_front
-local settings_ping_mute_enemy_doubletag = settings.ping_mute_enemy_doubletag
-local settings_ping_mute_enemy_doubletag_in_front = settings.ping_mute_enemy_doubletag_in_front
-local settings_ping_mute_item = settings.ping_mute_item
-local settings_ping_mute_location_ping = settings.ping_mute_location_ping
-local settings_ping_mute_location_attention = settings.ping_mute_location_attention
-local settings_ping_mute_location_threat = settings.ping_mute_location_threat
-local settings_debug = settings.debug
-local settings_ping_duration = settings.ping_duration
-local settings_ping_duration_seconds = settings.ping_duration_seconds
+local settings_ping_mute_enemy = mod:get("ping_mute_enemy")
+local settings_ping_mute_enemy_in_front = mod:get("ping_mute_enemy_in_front")
+local settings_ping_mute_enemy_doubletag = mod:get("ping_mute_enemy_doubletag")
+local settings_ping_mute_enemy_doubletag_in_front = mod:get("ping_mute_enemy_doubletag_in_front")
+local settings_ping_mute_item = mod:get("ping_mute_item")
+local settings_ping_mute_location_ping = mod:get("ping_mute_location_ping")
+local settings_ping_mute_location_attention = mod:get("ping_mute_location_attention")
+local settings_ping_mute_location_threat = mod:get("ping_mute_location_threat")
+local settings_debug = mod:get("debug")
+local settings_ping_duration = mod:get("ping_duration")
+local settings_ping_duration_seconds = mod:get("ping_duration_seconds")
 
 -- stylua: ignore
 function mod.on_setting_changed(key)
 	local value = mod:get(key)
-	settings[key] = value
 
 	-- update local settings cache
 	if key == "ping_mute_enemy" then settings_ping_mute_enemy = value return end
@@ -105,12 +105,12 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 	if settings_debug then
 		local tagger = tag_instance._tagger_unit
 		if tagger == Player then
-			util.set("last_tag", {
+			LastTag = {
 				template = tag_instance._template,
 				tagger = tagger,
 				unit = tag_instance._target_unit,
 				pos = tag_instance._target_location,
-			})
+			}
 
 			if settings_ping_duration then
 				local t = Managers.time:time("gameplay")
@@ -127,10 +127,8 @@ mod:hook("HudElementSmartTagging", "_play_tag_sound", function(func, self, tag_i
 end)
 
 function mod.debug_repeat_ping()
-	if settings_debug then
-		util.get("last_tag", function(t)
-			util.smart_tag(t.template.name, Player, t.unit, t.pos and t.pos:unbox())
-		end)
+	if settings_debug and LastTag then
+		util.smart_tag(LastTag.template.name, Player, LastTag.unit, LastTag.pos and LastTag.pos:unbox())
 	end
 end
 
