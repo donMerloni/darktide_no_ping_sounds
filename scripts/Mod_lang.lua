@@ -11,14 +11,6 @@ lang.mod_description = {
 lang.ping_mute_enemy = {
 	en = "Mute ALL enemy pings",
 }
-
-lang.ping_mute_enemy_in_front = {
-	en = "only if in view",
-}
-lang.ping_mute_enemy_in_front_description = {
-	en = "This will only mute pings that happen WITHIN your view",
-}
-
 lang.ping_mute_enemy_doubletag = {
 	en = "Mute ALL enemy pings (double-tag)",
 }
@@ -26,8 +18,15 @@ lang.ping_mute_enemy_doubletag_description = {
 	en = "e.g. Arbitrator Dog Ping",
 }
 
-lang.ping_mute_enemy_doubletag_in_front = lang.ping_mute_enemy_in_front
-lang.ping_mute_enemy_doubletag_in_front_description = lang.ping_mute_enemy_in_front_description
+lang.ping_mute_always = {
+	en = "Always",
+}
+lang.ping_mute_if_visible = {
+	en = "if visible",
+}
+lang.ping_mute_never = {
+	en = "Off",
+}
 
 lang.ping_mute_item = {
 	en = "Mute ALL item pings",
