@@ -3,26 +3,22 @@ local data = {}
 
 data[#data + 1] = {
 	setting_id = "ping_mute_enemy",
-	type = "checkbox",
-	default_value = true,
-	sub_widgets = {
-		{
-			setting_id = "ping_mute_enemy_in_front",
-			type = "checkbox",
-			default_value = true,
-		},
+	type = "dropdown",
+	default_value = 2,
+	options = {
+		{ text = "ping_mute_always", value = 1 },
+		{ text = "ping_mute_if_visible", value = 2 },
+		{ text = "ping_mute_never", value = 0 },
 	},
 }
 data[#data + 1] = {
 	setting_id = "ping_mute_enemy_doubletag",
-	type = "checkbox",
-	default_value = true,
-	sub_widgets = {
-		{
-			setting_id = "ping_mute_enemy_doubletag_in_front",
-			type = "checkbox",
-			default_value = true,
-		},
+	type = "dropdown",
+	default_value = 2,
+	options = {
+		{ text = "ping_mute_always", value = 1 },
+		{ text = "ping_mute_if_visible", value = 2 },
+		{ text = "ping_mute_never", value = 0 },
 	},
 }
 data[#data + 1] = {
