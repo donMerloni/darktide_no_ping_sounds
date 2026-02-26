@@ -44,14 +44,14 @@ end
 
 -- grab the player whenever it updates
 local function UIManager_grab_player(self, ...)
-	local hud = self._hud
+	local hud = self and self._hud
 	if hud then
 		Player = hud:player_unit()
 		PlayerCamera = hud:player_camera()
 	end
 end
 mod:hook_safe("UIManager", "create_player_hud", UIManager_grab_player)
-UIManager_grab_player(Managers.ui)
+UIManager_grab_player(Managers and Managers.ui)
 
 local groups = {
 	enemy = function(tag)
