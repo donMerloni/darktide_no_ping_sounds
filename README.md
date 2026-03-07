@@ -1,5 +1,9 @@
 # Changelog:
 
+## v3
+- Collapse duo checkboxes into a simple dropdown
+- Make the settings a little more colorful
+
 ## v2
 - Fixes for "Bound By Duty" Update
   - Arbitrator Dog Pings were crashing the game
