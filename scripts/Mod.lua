@@ -142,6 +142,13 @@ function mod.debug_repeat_ping()
 	end
 end
 
+function mod.on_all_mods_loaded(status, state_name)
+	local MoreGraphicsOptions = get_mod("MoreGraphicsOptions")
+	if MoreGraphicsOptions then
+		MoreGraphicsOptions.on_setting_changed("GIenabled")
+	end
+end
+
 if settings_debug then
 	mod:hook_require("scripts/managers/ui/ui_renderer", function(UIRenderer)
 		mod:hook_safe(UIRenderer, "begin_pass", function(self, ui_scenegraph, input_service, dt, render_settings)
