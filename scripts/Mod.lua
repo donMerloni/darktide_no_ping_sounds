@@ -65,7 +65,7 @@ local groups = {
 				and Camera_inside_frustum(PlayerCamera, Unit_world_position(unit, Unit_node(unit, "j_head"))) > -0.1
 	end,
 
-	double_tag_enemy = function(tag)
+	double_tag = function(tag)
 		if not settings_ping_mute_enemy_doubletag then
 			return false
 		end
