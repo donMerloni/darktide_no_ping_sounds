@@ -4,6 +4,11 @@
 
 ## Changelog
 
+### v3
+- Fixes for "Depths of the Damned" Update
+  - fix Double Tag (Arbitrator) pings throwing errors and not getting muted
+  - fix the "Repeat Last Ping" function to at least work in the Meat Grinder/Offline play again
+
 ### v2
 - Fixes for "Bound By Duty" Update
   - Arbitrator Dog Pings were crashing the game
