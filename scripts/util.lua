@@ -101,17 +101,23 @@ return function(mod)
 	end
 
 	function util.smart_tag(template_name, tagger_unit, target_unit, target_location)
+		local smart_tag_system = Managers.state.extension:system("smart_tag_system")
+		if not (smart_tag_system and smart_tag_system._is_server) then
+			-- As of Version 1.13.0 (Depths of the Damned), the Server now checks if you can see the target you want to ping.
+			-- So we only proceed if we have that authority, e.g. in the Meat Grinder / Offline play, which this function is meant for anyway.
+			return
+		end
+
 		if target_unit and not (Unit.is_valid(target_unit) and SmartTag.validate_target_unit(target_unit)) then
 			return
 		end
 
-		local smart_tag_system = Managers.state.extension:system("smart_tag_system")
-		if target_unit then
-			-- Arbitrator ping needs a special parameter
-			local alternate = (template_name == "enemy_companion_target") and "companion_order"
-			smart_tag_system:set_contextual_unit_tag(tagger_unit, target_unit, alternate)
-		else
-			smart_tag_system:set_tag(template_name, tagger_unit, nil, target_location)
+		local tag_id = smart_tag_system:_generate_tag_id()
+		local tag =
+			smart_tag_system:_create_tag_locally(tag_id, template_name, tagger_unit, target_unit, target_location)
+
+		if tagger_unit then
+			smart_tag_system:_server_check_tag_group_limit(tagger_unit, tag:group())
 		end
 	end
 
